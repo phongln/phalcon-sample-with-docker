@@ -11,6 +11,9 @@
 - Run command `docker-compose up -d --build`
 - Go to browser, type url `http://phalcon.local/`, you will see welcome page, it's mean successful installed
 
+# Update packages:
+- After run docker with phalcon successfully, go to inside container, run `composer install` for install packages
+
 # Credits:
 - MilesChow <https://github.com/MilesChou/docker-phalcon>
 - Phalcon <https://github.com/phalcon>
