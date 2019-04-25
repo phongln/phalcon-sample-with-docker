@@ -7,5 +7,10 @@
 
 # Install
 - Edit `hosts` file for adding local domain name, example: `127.0.0.1	phalcon.local`
-- Change `server` in `config\site.conf`
+- Change `server_name` in `config\site.conf`
 - Run command `docker-compose up -d --build`
+- Go to browser, type url `http://phalcon.local/`, you will see welcome page, it's mean successful installed
+
+# Credits:
+- MilesChow <https://github.com/MilesChou/docker-phalcon>
+- Phalcon <https://github.com/phalcon>
