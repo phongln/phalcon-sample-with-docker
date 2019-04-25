@@ -1,8 +1,0 @@
-{
-    "require": {
-        "phalcon/dd": "^1.1"
-    },
-    "require-dev": {
-        "phalcon/ide-stubs": "^3.4"
-    }
-}

@@ -49,4 +49,6 @@ ENV PATH="~/.composer/vendor/bin:./vendor/bin:${PATH}"
 
 RUN docker-phalcon-install-devtools
 
-CMD ["php-fpm"]
+#RUN composer update
+#CMD ["php-fpm"]
+CMD bash -c "composer install && php-fpm"
