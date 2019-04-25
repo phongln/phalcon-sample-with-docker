@@ -1,0 +1,20 @@
+version: '2'
+services:
+
+  web:
+    image: phalconphp/nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./src/:/src:rw
+      - ./config/site.conf:/etc/nginx/conf.d/site.conf
+
+  php:
+    build: ./php/
+    restart: always
+    volumes:
+      - ./src/:/src:rw
+#      - ./config/php.ini:/usr/local/etc/php/php.ini
+    depends_on:
+      - web
