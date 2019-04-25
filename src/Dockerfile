@@ -41,14 +41,10 @@ WORKDIR /src
 
 COPY . /src
 
-RUN chmod 755 /src
-
-RUN usermod -u 1000 www-data
+RUN chmod 755 /src \
+    && usermod -u 1000 www-data
 
 ENV PATH="~/.composer/vendor/bin:./vendor/bin:${PATH}"
 
-RUN docker-phalcon-install-devtools
-
-#RUN composer update
-#CMD ["php-fpm"]
-CMD bash -c "composer install && php-fpm"
+RUN docker-phalcon-install-devtools && composer install
+CMD ["php-fpm"]

@@ -11,10 +11,10 @@ services:
       - ./config/site.conf:/etc/nginx/conf.d/site.conf
 
   php:
-    build: ./php/
+    build: ./src/
     restart: always
     volumes:
-      - ./src/:/src:rw
+      - ./src/phalcon:/src/phalcon:rw
 #      - ./config/php.ini:/usr/local/etc/php/php.ini
     depends_on:
       - web
