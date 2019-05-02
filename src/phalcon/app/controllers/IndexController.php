@@ -2,10 +2,16 @@
 
 class IndexController extends ControllerBase
 {
+    private $jobElsService;
+
+    public function initialize()
+    {
+        $this->jobElsService = $this->getDi()->get(JobElsServices::class);
+    }
 
     public function indexAction()
     {
-//        dd(1);
+        dd($this->jobElsService->getJobsByIndustryCode(35));
     }
 
 }

@@ -20,7 +20,10 @@
 
 FROM mileschou/phalcon:fpm
 
-RUN apt-get update && apt-get install -y \
+RUN	\
+	apt-get -y upgrade \
+	&& apt-get update --fix-missing \
+	&& apt-get install -y \
     git \
     curl \
     libxml2-dev \
@@ -28,9 +31,24 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libpcre3-dev \
     libzip-dev \
+    zip \
     --no-install-recommends \
     && docker-php-ext-configure zip --with-libzip \
-    && docker-php-ext-install -j$(nproc) pdo_mysql mbstring soap zip gd mysqli opcache simplexml xml xmlrpc xmlwriter intl bcmath \
+    && docker-php-ext-install -j$(nproc) \
+        pdo_mysql \
+        mbstring \
+        soap \
+        zip \
+        gd \
+        mysqli \
+        opcache \
+        simplexml \
+        xml \
+        json \
+        xmlrpc \
+        xmlwriter \
+        intl \
+        bcmath \
     && cp /usr/local/bin/php /usr/bin/ \
     && rm -r /var/lib/apt/lists/* \
     && curl -sS https://getcomposer.org/installer | php \
@@ -46,5 +64,9 @@ RUN chmod 755 /src \
 
 ENV PATH="~/.composer/vendor/bin:./vendor/bin:${PATH}"
 
-RUN docker-phalcon-install-devtools && composer install
+RUN docker-phalcon-install-devtools \
+    && composer install \
+    && apt-get clean \
+    && apt-get autoclean
+
 CMD ["php-fpm"]

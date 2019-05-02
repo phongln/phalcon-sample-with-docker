@@ -1,18 +1,18 @@
 <?php
 
+use Phalcon\Flash\Direct as Flash;
+use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
+use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
-use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
-use Phalcon\Flash\Direct as Flash;
 
 /**
  * Shared configuration service
  */
 $di->setShared('config', function () {
-    return include APP_PATH . "/config/config.php";
+    return include APP_PATH."/config/config.php";
 });
 
 /**
@@ -45,12 +45,12 @@ $di->setShared('view', function () {
 
             $volt->setOptions([
                 'compiledPath' => $config->application->cacheDir,
-                'compiledSeparator' => '_'
+                'compiledSeparator' => '_',
             ]);
 
             return $volt;
         },
-        '.phtml' => PhpEngine::class
+        '.phtml' => PhpEngine::class,
 
     ]);
 
@@ -63,13 +63,13 @@ $di->setShared('view', function () {
 $di->setShared('db', function () {
     $config = $this->getConfig();
 
-    $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
+    $class = 'Phalcon\Db\Adapter\Pdo\\'.$config->database->adapter;
     $params = [
-        'host'     => $config->database->host,
+        'host' => $config->database->host,
         'username' => $config->database->username,
         'password' => $config->database->password,
-        'dbname'   => $config->database->dbname,
-        'charset'  => $config->database->charset
+        'dbname' => $config->database->dbname,
+        'charset' => $config->database->charset,
     ];
 
     if ($config->database->adapter == 'Postgresql') {
@@ -94,11 +94,26 @@ $di->setShared('modelsMetadata', function () {
  */
 $di->set('flash', function () {
     return new Flash([
-        'error'   => 'alert alert-danger',
+        'error' => 'alert alert-danger',
         'success' => 'alert alert-success',
-        'notice'  => 'alert alert-info',
-        'warning' => 'alert alert-warning'
+        'notice' => 'alert alert-info',
+        'warning' => 'alert alert-warning',
     ]);
+});
+
+/**
+ * Register the ItJobsElseRepo
+ */
+$di->set('ItJobsElsRepo', function () {
+    return new ItJobsElsRepo((array)$this->getConfig()->elasticsearch->hosts, $this->getConfig()->elasticsearch->index,
+        $this->getConfig()->elasticsearch->type);
+});
+
+/**
+ * Register the JobElsServices
+ */
+$di->set('JobElsServices', function () {
+    return new JobElsServices($this->get(ItJobsElsRepo::class));
 });
 
 /**
